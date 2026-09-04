@@ -1,14 +1,15 @@
-{% set version = "2.48.0" %}
+{% set name = "eccodes" %}
+{% set version = "2.47.0" %}
 
 package:
-  name: eccodes
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://confluence.ecmwf.int/download/attachments/45757960/eccodes-{{ version }}-Source.tar.gz
-  sha256: 62e8fa5ca137d138189a5fdd6d5b2205c89cc26338e3f4286aba3d89b49c9f9a
-  #patches:
-  #  - fix_md5_test.patch
+  url: https://github.com/ecmwf/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 6318a6a1e296d6698bcd83719212cf630b9bb45c054723c22bbc449090ae0c0e
+  patches:
+    - fix-tests-path.patch
 
 build:
   number: 0
@@ -16,33 +17,33 @@ build:
 
 requirements:
   build:
-    - {{ compiler('fortran') }}  # [not win]
-    - {{ compiler('c') }}
     - {{ stdlib("c") }}
+    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}  # [not win]
     - cmake
+    - git
     - diffutils  # [not win]
-    - make
+    - make       # [not win]
   host:
-    - jasper    # [not ppc64le]
-    - openjpeg  # [ppc64le]
-    - zlib
-    - libpng
-    - libnetcdf
-    - libaec
-    - hdf5
+    - jasper    {{ jasper }}
+    - zlib      {{ zlib }}
+    - libpng    {{ libpng }}
+    - libnetcdf {{ libnetcdf }}
+    - libaec    {{ libaec }}
+    - hdf5      {{ hdf5 }}
 
 test:
   requires:
-    - perl  # [not win]
-    - m2-bash  # [win]
-    - m2-findutils  # [win]
-    - m2-coreutils  # [win]
-    - m2-grep  # [win]
-    - m2-sed  # [win]
-    - m2-gawk  # [win]
-    - m2-diffutils  # [win]
-    - m2-perl  # [win]
+    - perl          # [not win]
+    - msys2-bash       # [win]
+    - msys2-findutils  # [win]
+    - msys2-coreutils  # [win]
+    - msys2-grep       # [win]
+    - msys2-sed        # [win]
+    - msys2-gawk       # [win]
+    - msys2-diffutils  # [win]
+    - msys2-perl       # [win]
   commands:
     - codes_info
     - ls $(codes_info -s)  # [not win]
@@ -54,6 +55,10 @@ about:
   license_file: LICENSE
   license_family: Apache
   summary: ECMWF ecCodes Copyright 2005- ECMWF.
+  description: |
+    ECMWF ecCodes Copyright 2005- ECMWF.
+  dev_url: https://confluence.ecmwf.int/spaces/ECC/pages/45757960/Releases
+  doc_url: https://confluence.ecmwf.int/spaces/ECC/pages/45748339/Documentation
 
 extra:
   recipe-maintainers:

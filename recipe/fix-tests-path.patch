@@ -6,7 +6,7 @@
 
  echo "Current directory: `pwd`"
 +
-+export PATH=$PATH:$LIBRARY_BIN
++export PATH=$PATH:${LIBRARY_BIN:-}
 --- examples/C/include.ctest.sh.in.orig	        2019-11-18 20:02:38.000000000 -0700
 +++ examples/C/include.ctest.sh.in		2019-11-18 20:03:08.000000000 -0700
 @@ -24,5 +24,7 @@
@@ -16,7 +16,7 @@
 
  ECCODES_ON_WINDOWS=@ECCODES_ON_WINDOWS@
 + 
-+export PATH=$PATH:$LIBRARY_BIN
++export PATH=$PATH:${LIBRARY_BIN:-}
 --- examples/python/include.ctest.sh.in.orig	2019-11-18 20:02:38.000000000 -0700
 +++ examples/python/include.ctest.sh.in		2019-11-18 20:03:08.000000000 -0700
 @@ -22,3 +22,5 @@
@@ -24,5 +24,5 @@
  
  echo "Current directory: `pwd`"
 +
-+export PATH=$PATH:$LIBRARY_BIN
++export PATH=$PATH:${LIBRARY_BIN:-}
 
